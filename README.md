@@ -9,6 +9,7 @@ Homework assignments in this course are designed to deepen your understanding of
 This homework is designed to deepen your understanding of graph algorithms, greedy strategies, and dynamic programming. You will model real-world scenarios using computational abstractions and implement algorithms to solve them efficiently. The problems simulate settings from epidemiology to infrastructure planning and robotics, promoting algorithmic thinking and practical problem-solving.
 
 By completing this homework, you will strengthen your ability to:  
+
 - Model real-world problems as algorithmic challenges.  
 - Apply graph traversal and optimization techniques.  
 - Design and implement greedy and dynamic programming algorithms.  
@@ -16,7 +17,9 @@ By completing this homework, you will strengthen your ability to:
 
 These align with institutional learning goals and support the Computer Science program's outcomes by promoting technical fluency, problem-solving, and analytical reasoning.
 
-### 🎯 Skills  
+Through solving these problems, you will learn how to formalize, design, and optimize real-world systems using the fundamental building blocks of computer science. This strengthens your ability to reason algorithmically and prepares you for careers in systems design, AI, data science, and more.
+
+# Skills  
 This homework helps build the following skills:
 
 - Graph Algorithms & Modeling: Represent and process networks using graph structures and BFS, DFS, and All-Pairs Shortest Paths.  
@@ -26,10 +29,12 @@ This homework helps build the following skills:
 - Complexity Analysis: Analyze time complexity and algorithm correctness using formal techniques.  
 - Team Collaboration: Work with peers on solving technical problems.
 
-These satisfy the outcomes of critic thinking and analytical reasoning, developing and evaluating algorithmic solutions, applying mathematical and computational foundations to design solutions, designing and analyzing greedy and dynamic programming algorithms, and analyzing algorithm time complexity. These align with the university's  \href{https://habib.edu.pk/about-us/vision-values/}{learning goals}, the CS program's \href{https://habib.edu.pk/academics/sse/computer-science/}{learning outcomes}, and the course's \href{https://hulms.instructure.com/courses/4297/outcomes}{learning objectives}.
+These satisfy the outcomes of critic thinking and analytical reasoning, developing and evaluating algorithmic solutions, applying mathematical and computational foundations to design solutions, designing and analyzing greedy and dynamic programming algorithms, and analyzing algorithm time complexity. These align with [University Learning Goals](https://habib.edu.pk/about-us/vision-values/), CS [Program Learning Outcomes](https://habib.edu.pk/academics/sse/computer-science/), and [Course Learning Outcomes](https://hulms.instructure.com/courses/4297/outcomes).
 
-# 🔧 Required Background  
+# Required Background  
+
 To complete this homework, you will need:
+
 - Knowledge of graphs and related algorithms.
 - Understanding of greedy and dynamic programming paradigms  
 - Experience with Python and appropriate libraries (`networkx`, `matplotlib`)  
