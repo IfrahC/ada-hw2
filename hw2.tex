@@ -84,7 +84,7 @@ The output declares a minimum of 2 days for the maximal spread of the disease. O
 \begin{parts}
 \part[5] Design a linear-time algorithm to simulate the spread. That is, ensure your solution runs in $\mathcal{O}(n + m)$ time, where $n$ is the number of nodes and $m$ is the number of edges. Describe below any considerations, e.g. appropriate data structures, to ensure the linear run time.
   \begin{solution}
-    
+    We can use BFS to simulate the spread of the disease. We can represent the graph as an adjacency list, which allows us to traverse the graph in linear time. We will maintain a queue to keep track of the nodes that need to be processed, and a set to keep track of the infected nodes. We will also maintain a set of mountain nodes to ensure that we do not process them. The BFS will start from the initially infected nodes and will continue until all reachable healthy villages are infected or there are no more nodes to process.
   \end{solution}
 \part[5] Submit files, \texttt{disease.in} and \texttt{disease.py}, where the former contains input and the latter reads the input and implements your algorithm on it to produce the output. You may design any reasonable input. 
 \part[5] Submit an animation, \texttt{disease.mp4}, which simulates the spread of the disease on your graph from above. The last frame should include the output of your program.
