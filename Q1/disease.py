@@ -15,79 +15,53 @@ with open('Q1/disease.in', 'r') as file:
 
 # Step 1: Read n and m
 n, m = map(int, lines[0].split())
-print(f"Number of villages (n) = {n}, Number of edges (m) = {m}")
+# print(f"Number of villages (n) = {n}, Number of edges (m) = {m}")
 
 # Step 2: Read the m edges
 edges = []
 for i in range(1, 1 + m):
     u, v = map(int, lines[i].split())
     edges.append((u, v))
-print(f"Edges read: {edges}")
+# print(f"Edges read: {edges}")
 
 nodes = set()
 for node in range(1, n + 1):
     nodes.add(node)
-print(f"Nodes: {nodes}")
+# print(f"Nodes: {nodes}")
 
-print(lines[m+1])
+# print(lines[m+1])
 
 # Step 3: Read p and q
 p, q = map(int, lines[m+1].split())
-print(f"p = {p}, q = {q}")
+# print(f"p = {p}, q = {q}")
 
 # Step 4: Read the mountains
 mountain_nodes = list(map(int, lines[2 + m].split()))
-print(f"Mountains: {mountain_nodes}")
+# print(f"Mountains: {mountain_nodes}")
 
 # Step 5: Read the initially infected villages
 infected_nodes = list(map(int, lines[3 + m].split()))
-print(f"Infected villages: {infected_nodes}")
+# print(f"Infected villages: {infected_nodes}")
 
 total_villages = set()
 for i in range(1, n + 1):
     if i not in mountain_nodes:
         total_villages.add(i)
-print(f"Total villages excluding mountains: {total_villages}")
+# print(f"Total villages excluding mountains: {total_villages}")
 
 # Create graph
 G = nx.Graph()
-G.add_nodes_from(range(1, n))  # Add all villages as nodes
+G.add_nodes_from(range(1, n+1))  # Add all villages as nodes
 G.add_edges_from(edges)
-
-# Assign colors based on mountain/infected/healthy
-node_colors = []
-for node in G.nodes:
-    if node in mountain_nodes:
-        node_colors.append('green')  # Mountains
-    elif node in infected_nodes:
-        node_colors.append('red')  # Infected
-    else:
-        node_colors.append('blue')  # Healthy villages
-
-# Draw the graph
-plt.figure(figsize=(8, 6))
-nx.draw(
-    G,
-    with_labels=True,
-    node_color=node_colors,
-    node_size=500,
-    font_size=10,
-    font_color='white',
-    edge_color='gray'
-)
-# plt.title("Disease Spread Graph Visualization")
-# plt.show()
-
-days = 0
 infected_villages = set(infected_nodes)
 
 # Print all neighbors for each village
-print("Neighbors for each village:")
+# print("Neighbors for each village:")
 for village in G.nodes:
     neighbors = list(G.neighbors(village))
-    print(f"Village {village}: {neighbors}")
+    # print(f"Village {village}: {neighbors}")
 
-print()
+# print()
 
         
 def infection_bfs(graph, infected_villages, total_villages, mountain_nodes):
@@ -96,7 +70,7 @@ def infection_bfs(graph, infected_villages, total_villages, mountain_nodes):
     day = 0
 
     queue = collections.deque(infected_villages)
-    print(f"Initial infected villages: {queue}")
+    # print(f"Initial infected villages: {queue}")
     print()
 
     # Visualization setup
@@ -105,21 +79,16 @@ def infection_bfs(graph, infected_villages, total_villages, mountain_nodes):
 
     while queue:
         next_queue = collections.deque()
-        print()
+        # Process the current day's infections
         for village in queue:
-            print()
-            print(f"{graph[village]} neighbors of village {village}")
             for neighbor in sorted(graph[village]):
-                print(f"Checking neighbor {neighbor} of village {village}")
                 if neighbor in mountain_nodes:
-                    print(f"Neighbor {neighbor} is a mountain, skipping.")
                     continue
                 if neighbor not in visited and neighbor not in mountain_nodes:
                     visited.add(neighbor)
                     next_queue.append(neighbor)
-                    day_to_villages[day + 1].append(neighbor)
-                    break  # Infect only one neighbor per village per day
-
+                    day_to_villages[day].append(neighbor)
+    
         # Visualize the current state of the graph
         ax.clear()
         node_colors = []
@@ -130,7 +99,7 @@ def infection_bfs(graph, infected_villages, total_villages, mountain_nodes):
                 node_colors.append('red')  # Infected
             else:
                 node_colors.append('blue')  # Healthy villages
-
+    
         nx.draw(
             graph,
             pos,
@@ -142,18 +111,27 @@ def infection_bfs(graph, infected_villages, total_villages, mountain_nodes):
             edge_color='gray',
             ax=ax
         )
-        ax.set_title(f"Disease Spread - Day {day}")
-        plt.pause(1)  # Pause to visualize each step
-
+        ax.set_title(f"Disease Spread - Day {day+1}")
+        plt.pause(2)  # Pause to visualize each step
+    
+        # If there are no more villages to infect, stop
         if not next_queue:
-            break  # No more villages to infect
-
+            break
+    
         queue = next_queue  # Move to the next day's infections
-        day += 1
-
+        day += 1  # Increment the day only if there are villages left to infect
     uninfected_villages = total_villages.difference(visited)
 
-    # Final visualization
+    ax.text(
+        0.0, 0.9,  # Position (relative to the plot)
+        f"Days taken to infect all villages: {day}\nUninfected villages: {uninfected_villages}",
+        transform=ax.transAxes,  # Use axes coordinates
+        fontsize=10,
+        verticalalignment='top',
+        bbox=dict(boxstyle="round,pad=0.3", edgecolor="black", facecolor="white")
+    )
+
+
     plt.title(f"Disease Spread Complete - Day {day}")
     plt.show()
 
