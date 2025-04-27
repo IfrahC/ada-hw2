@@ -175,9 +175,23 @@ The output declares a minimum of 2 days for the maximal spread of the disease. O
 
   \begin{parts}
   \part[5]  Modify Algorithm B to operate on a \textit{weighted} undirected graph and output its Minimum Spanning Tree i.e. a spanning tree that connects all the vertices with the least possible sum of edge weights. Call this Algorithm C.\\
-    Hint: be greedy in step 3b).
+    (Hint: be greedy in step 3b).
     \begin{solution}
-      
+      \textbf{Algorithm C: Bucket Algorithm with Minimum Spanning Tree}\\
+      \underline{Input:} Graph $G = (V, E)$ represented as an adjacency matrix\\
+      \underline{Output:} Minimum spanning tree $T$
+
+      \begin{enumerate}
+          \item Choose any vertex $x \in V$
+          \item Initialize Bucket $B \leftarrow x$, Tree $T \leftarrow \emptyset$
+          \item While there exists an edge $(u, v, w) \in E$ such that $u \in B$ and $v \not\in B$:
+          \begin{enumerate}
+              \item Find the edge $(u, v, w)$ with the minimum weight $w$
+              \item Add vertex $v$ to $B$
+              \item Add edge $(u, v, w)$ to $T$
+          \end{enumerate}
+          \item Return $T$
+      \end{enumerate}      
     \end{solution}
   \part[5] For Algorithm C that you developed above, visualize its run on the graph below starting from vertex $a$. Highlight the bucket and the minimum spanning tree edges at every step to clearly show how they grow (as shown in the sample dry run for Algorithm A).
     \begin{solution}\null\\
