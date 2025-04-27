@@ -196,36 +196,166 @@ The output declares a minimum of 2 days for the maximal spread of the disease. O
   \part[5] For Algorithm C that you developed above, visualize its run on the graph below starting from vertex $a$. Highlight the bucket and the minimum spanning tree edges at every step to clearly show how they grow (as shown in the sample dry run for Algorithm A).
     \begin{solution}\null\\
     \includegraphics[scale=0.4]{e}
+    \includegraphics[scale=0.2]{Q3/images3b/3b1}
+    \includegraphics[scale=0.2]{Q3/images3b/3b2}\\
+    \includegraphics[scale=0.2]{Q3/images3b/3b3}
+    \includegraphics[scale=0.2]{Q3/images3b/3b4}
+    \includegraphics[scale=0.2]{Q3/images3b/3b5}
+    \includegraphics[scale=0.2]{Q3/images3b/3b6}
+    \includegraphics[scale=0.2]{Q3/images3b/3b7}
+    \includegraphics[scale=0.2]{Q3/images3b/3b8}
+    \includegraphics[scale=0.2]{Q3/images3b/3b9}
+    \includegraphics[scale=0.2]{Q3/images3b/3b10}
+    \includegraphics[scale=0.25]{Q3/images3b/3b11}
+
     \end{solution}
   \part[5] Derive the time complexity of Algorithm C.
     \begin{solution}
-
+      The time complexity of Algorithm B is $\mathcal{O}(n + m)$, where $n$ is the number of vertices and $m$ is the number of edges. The time complexity of Algorithm C is also $\mathcal{O}(n^2)$, as we are iterating over the edges of each vertex. Since the worst case is when the graph is dense (each vertex is connected to every other vertex), we can say that the time complexity of Algorithm C is $\mathcal{O}(n^2)$.
     \end{solution}
   \part[5] Now let’s design another algorithm, where now we \textit{remove} certain edges frmo $G$ such that the resulting graph is a Minimum Spanning Tree. Let’s call this Algorithm D.\\
     Note that while removing edges, we need to make sure the graph stays connected! To check connectivity use Algorithm A.
     \begin{solution}
-      
+      \textbf{Algorithm D:Remove Edges to form Minimum Spanning Tree}\\
+      \underline{Input:} Graph $G = (V, E)$ represented as an adjacency matrix\\
+      \underline{Output:} Minimum spanning tree $T$
+
+      \begin{enumerate}
+        \item Initialize EdgeSet $E \leftarrow E$.
+        \item Sort all edges in $E$ in non-decreasing order of their weights.
+        \item Initialize TreeSet $T \leftarrow \emptyset$.
+        \item For each edge $(u, v, w)$ in sorted order:
+        \begin{enumerate}
+            \item If adding edge $(u, v, w)$ to $T$ does not create a cycle:
+            \begin{enumerate}
+                \item Add edge $(u, v, w)$ to $T$.
+            \end{enumerate}
+        \end{enumerate}
+        \item Let removeSet $R \leftarrow E - T$ (edges not included in the MST).
+        \item For each edge $(u, v, w)$ in $R$:
+        \begin{enumerate}
+            \item Remove edge $(u, v, w)$ from $G$.
+        \end{enumerate}
+        \item Return $T$.
+    \end{enumerate}
+    
     \end{solution}
   \part[5] For Algorithm D that you developed above, visualize its run on the graph below starting from vertex $a$. Highlight the edges you are deleting at every step to clearly show how the graph shrinks into an MST.
     \begin{solution}\null\\
+    Shown is the dry run of the algorithm that will form the MST, with the orange vertices/edges depicting the ones that will be added to the MST. The final graph has the edges (highlighted in red) that will re removed from G.\\  
     \includegraphics[scale=0.4]{e}
+    \includegraphics[scale=0.25]{Q3/images3e/3e2}
+    \includegraphics[scale=0.25]{Q3/images3e/3e3}\\
+    \includegraphics[scale=0.25]{Q3/images3e/3e4}
+    \includegraphics[scale=0.25]{Q3/images3e/3e5}
+    \includegraphics[scale=0.25]{Q3/images3e/3e6}\\
+    \includegraphics[scale=0.25]{Q3/images3e/3e7}
+    \includegraphics[scale=0.2]{Q3/images3e/3e8}
+    \includegraphics[scale=0.25]{Q3/images3e/3e9}\\
+    \includegraphics[scale=0.25]{Q3/images3e/3e10}
+    \includegraphics[scale=0.6]{Q3/images3e/3e1}
+    \includegraphics[scale=0.25]{Q3/images3e/3e11}\\
+    \includegraphics[scale=0.25]{Q3/images3e/3e12.jpeg}
     \end{solution}For Algorithm D that you’ve designed in part c), dry run it on the graph below. 
   \part[5] Derive the time complexity of Algorithm D.
     \begin{solution}
-      
+      \\
+      2. Sorting the edges takes $\mathcal{O}(V^2 \log V)$ time (since we are useing a matrix representation of G).\\
+      4. Looping over all the edges takes $\mathcal{O}(V^2)$ time.\\
+      4a. Checking for cycles takes $\mathcal{O}(V^2)$ time.\\
+      5. Removing edges takes $\mathcal{O}(V^2)$ time.\\
+      6. The final time complexity is $\mathcal{O}(V^2 \log V)$.
+
     \end{solution}
   \part[5]  Modify Algorithm B to output its \textit{Shortest Path Spanning Tree}. Unlike Minimum Spanning Tree (which minimizes the total weight of the tree), the Shortest Path Spanning Tree focuses on minimizing the distance from the root/starting vertex to each vertex.\\
     Hint: be greedy in step 3b). Call this Algorithm E.
     \begin{solution}
-      
+      \\
+      \textbf{Algorithm E: Djikstra's Algorithm with Spanning Tree}\\
+      \underline{Input:} Graph $G = (V, E)$ represented as an adjacency matrix\\
+      \underline{Output:} Spanning tree $T$
+    %   \begin{enumerate}
+    %     \item Choose any vertex $x \in V$
+    %     \item For all vertices $v \in V$, set $v.d \leftarrow \infty$ (distance to all vertices initially infinity)
+    %     \item Set $x.d \leftarrow 0$ (distance to the root is zero)
+    %     \item Initialize Bucket $B \leftarrow x$, Tree $T \leftarrow \emptyset$
+    %     \item While there exists a vertex $u \in B$:
+    %     \begin{enumerate}
+    %       \item $u$ = node with the smallest distance among unvisited nodes
+    %       \item For each neighbor $v$ of $u$:
+    %       \begin{enumerate}
+    %           \item If $d(v) > d(u) + w(u, v)$ (relaxation condition):
+    %           \begin{enumerate}
+    %               \item Update $d(v) \leftarrow d(u) + w(u, v)$
+    %               % \item Add edge $(u, v)$ to $T$
+    %           \end{enumerate}
+    %           \item If $v$ is not in $B$ (it’s unvisited), add $v$ to $B$
+    %       \end{enumerate}
+    %       \item Remove vertex $u$ from $B$
+    %   \end{enumerate}
+    %   \item Return $T$
+    % \end{enumerate}
+    \textbf{Algorithm E: Dijkstra’s Algorithm with Shortest Path Spanning Tree (No Priority Queue)}\\
+    \underline{Input:} Graph \( G = (V, E) \) represented as an adjacency matrix\\
+    \underline{Output:} Shortest Path Spanning Tree \( T \)
+    
+    \begin{enumerate}
+      \item Choose any vertex \( x \in V \)
+      \item For all vertices \( v \in V \), set \( v.d \leftarrow \infty \) (distance to all vertices initially infinity)
+      \item Set \( x.d \leftarrow 0 \) (distance to the root is zero)
+      \item Initialize Bucket $B \leftarrow x$, Tree $T \leftarrow \emptyset$
+      \item Initialize set S of visited vertices \( S \leftarrow \emptyset \)
+      \item For all vertices, initialize \( pred(v) \leftarrow \emptyset \) (no predecessors at the start)
+      \item While there exists an edge $(u, v) \in E$ such that $u \in B$ and $v \not\in B$:      
+      \begin{enumerate}
+        \item Select vertex \( u \) from \( B \) such that \( u.d \) is the smallest distance among $V - S$
+        \item Add \( u \) to \( S \)
+        \item For each neighbor \( v \) of \( u \) where \( v \notin B \):
+        \begin{enumerate}
+          \item If \( d(v) > d(u) + w(u, v) \), then:
+          \begin{enumerate}
+            \item Update \( d(v) \leftarrow d(u) + w(u, v) \) (relaxation)
+            \item Add edge \( (u, v) \) to \( T \)
+          \end{enumerate}
+        \item Add \( v \) to \( B \)
+        \end{enumerate}
+      \end{enumerate}
+      \item Return the Shortest Path Spanning Tree \( T \)
+    \end{enumerate}
+    
+  
     \end{solution}
   \part For Algorithm E that you developed above, visualize its run on the graph below starting from vertex $a$. Highlight the bucket and the shortest path spanning tree edges at every step to clearly show how they grow (as shown in the sample dry run for Algorithm A).
     \begin{solution}\null\\
     \includegraphics[scale=0.4]{e}
+    \includegraphics[scale=0.2]{Q3/images3g/3g1}
+    \includegraphics[scale=0.2]{Q3/images3g/3g2}\\
+    \includegraphics[scale=0.2]{Q3/images3g/3g3}
+    \includegraphics[scale=0.2]{Q3/images3g/3g4}
+    \includegraphics[scale=0.2]{Q3/images3g/3g5}\\
+    \includegraphics[scale=0.2]{Q3/images3g/3g6}
+    \includegraphics[scale=0.2]{Q3/images3g/3g7}
+    \includegraphics[scale=0.2]{Q3/images3g/3g8}\\
+    \includegraphics[scale=0.2]{Q3/images3g/3g9}
+    \includegraphics[scale=0.2]{Q3/images3g/3g10}\\
+    Notes:\\
+    \begin{itemize}
+      \item I have crossed out the nodes that are visited
+      \item Node h is supposed to have $8,g$, not $8,f$.
+    \end{itemize}
     \end{solution}
   \part Derive the time complexity of Algorithm E.
     \begin{solution}
-      
+      \\
+      2. initialization takes takes $\mathcal{O}(V)$ time for setting up the distances and the predecessors.\\
+      7. The while loop runs $\mathcal{O}(V)$ times.\\
+      7a. Finding the node with the smallest distance takes $\mathcal{O}(V)$ time.\\
+      7c. Checking the neighbors takes $\mathcal{O}(V)$ time.\\
+      7ciA. Relaxation takes $\mathcal{O}(1)$ time.\\
+      7ciB. Adding the edge to the tree takes $\mathcal{O}(1)$ time.\\
+      7cii. Adding the vertex to the bucket takes $\mathcal{O}(1)$ time.\\
+      The final time complexity is $\mathcal{O}(V^2)$.
+
     \end{solution}
 \end{parts}
 
