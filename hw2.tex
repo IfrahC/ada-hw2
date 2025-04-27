@@ -4,6 +4,10 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \graphicspath{{images/}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+% \usepackage{algorithm}
+\usepackage{algorithmic}
 
 \printanswers
 \addpoints
@@ -84,7 +88,7 @@ The output declares a minimum of 2 days for the maximal spread of the disease. O
 \begin{parts}
 \part[5] Design a linear-time algorithm to simulate the spread. That is, ensure your solution runs in $\mathcal{O}(n + m)$ time, where $n$ is the number of nodes and $m$ is the number of edges. Describe below any considerations, e.g. appropriate data structures, to ensure the linear run time.
   \begin{solution}
-    We can use BFS to simulate the spread of the disease. We can represent the graph as an adjacency list, which allows us to traverse the graph in linear time. We will maintain a queue to keep track of the nodes that need to be processed, and a set to keep track of the infected nodes. We will also maintain a set of mountain nodes to ensure that we do not process them. The BFS will start from the initially infected nodes and will continue until all reachable healthy villages are infected or there are no more nodes to process.
+    
   \end{solution}
 \part[5] Submit files, \texttt{disease.in} and \texttt{disease.py}, where the former contains input and the latter reads the input and implements your algorithm on it to produce the output. You may design any reasonable input. 
 \part[5] Submit an animation, \texttt{disease.mp4}, which simulates the spread of the disease on your graph from above. The last frame should include the output of your program.
@@ -112,7 +116,7 @@ The output declares a minimum of 2 days for the maximal spread of the disease. O
   \part[5] Submit a file, \texttt{roads.py}, that hard codes the graph, visualizes it, applies your chosen all-pairs shortest path algorithm on it and stores the distances, and handles interactive queries (case-insensitive and handling invalid input).
   \part[5] Include below any notes on your approach, cities used, and assumptions.
     \begin{solution}
-      
+      So, one assumption that I did for the hardcoded data was to only include weights between those cities between which a direct road exists and not a road which goes through multiple cities instead first. This is to just make the graph a bit small otherwise it would appear extremely cluttered because technically speaking a road exists between all cities in the data set. This required a lot of Google searches so I cannot guarantee that my data is completely correct but logically it works for the question. Extra cities that were used included Gwadar, Nawabshah, Hyderabad, and Rawalpindi.
     \end{solution}
   \part[5] Submit a short demo video (no longer than 5 minutes), \texttt{roads.mp4}, of a run of your program. The video should include the graph visualization, interaction with the user, and commentary by you including details of the algorithm, visualization, and interaction. Make sure that the visualization highlights any selected shortest route.
   \end{parts}
@@ -226,23 +230,108 @@ The output declares a minimum of 2 days for the maximal spread of the disease. O
 \begin{parts}
 \part[5] Provide a recursive definition of the minimum stress damage. Make sure to indicate the base case. Clearly define any notation that you introduce.
   \begin{solution}
-    
+    \[
+\text{minStress}(j) = \min_{0 \leq i < j} \left( \text{minStress}(i) + (1000 - (a_j - a_i))^2 \right)
+\]
+for all values of $j$ ranging from 1,2,...n 
+
   \end{solution}
 \part[5] Include a below a visualization of the problem subgraph for $n=5$.
   \begin{solution}
-    
+    \begin{tikzpicture}[
+  node distance=1.5cm,
+  every node/.style={circle, draw=orange!80, fill=orange!20, thick, minimum size=8mm},
+  arrow/.style={-{Latex[length=2mm]}, thick}
+]
+
+% Nodes (top to bottom)
+\node(s5) {5};
+\node[below=of s5] (s4) {4};
+\node[below=of s4] (s3) {3};
+\node[below=of s3] (s2) {2};
+\node[below=of s2] (s1) {1};
+\node[below=of s1] (s0) {0};
+
+% Draw curved undirected edges
+\draw (s5) -- (s4);
+\draw[bend right=15] (s5) to (s3);
+\draw[bend right=15] (s5) to (s2);
+\draw[bend right=25] (s5) to (s1);
+\draw[bend right=35] (s5) to (s0);
+
+\draw (s4) -- (s3);
+\draw[bend left=15] (s4) to (s2);
+\draw[bend left=25] (s4) to (s1);
+\draw[bend left=35] (s4) to (s0);
+
+\draw (s3) -- (s2);
+\draw[bend left=15] (s3) to (s1);
+\draw[bend left=25] (s3) to (s0);
+
+\draw (s2) -- (s1);
+\draw[bend left=15] (s2) to (s0);
+
+\draw (s1) -- (s0);
+
+
+\end{tikzpicture}
   \end{solution}
 \part[5] Discuss the time complexity of the solution.
   \begin{solution}
-    
+    There are $n$ nodes for example and at each node you are looking at all $n-1$ nodes to go to. This effectively gives us $O(n^2)$
   \end{solution}
 \part[5] Provide a bottom-up implementation (pseudocode) to compute the minimum stress damage.
   \begin{solution}
-    
+    \begin{algorithm}
+    Input: Array $a$ of station distances and $n$ which is the number of stations \newline
+\caption{MINIMUM-STRESS$(a, n)$}
+\begin{algorithmic}[1]
+\STATE Let \texttt{minStress}[0..n] be a new array
+\STATE \texttt{minStress}[0] $\leftarrow$ 0
+\FOR{$j = 1$ to $n$}
+    \STATE \texttt{minStress}[j] $\leftarrow \infty$
+    \FOR{$i = 0$ to $j-1$}
+        \STATE \texttt{cost} $\leftarrow$ \texttt{minStress}[i] $+$ $(1000 - (a[j] - a[i]))^2$
+        \IF{\texttt{cost} $<$ \texttt{minStress}[j]}
+            \STATE \texttt{minStress}[j] $\leftarrow$ \texttt{cost}
+        \ENDIF
+    \ENDFOR
+\ENDFOR
+\RETURN \texttt{minStress}[n]
+\end{algorithmic}
+\end{algorithm}
+
   \end{solution}
 \part[5] Show how the pseudocode can be modified to also compute the sequence of visited charging stations.
   \begin{solution}
-    
+    \begin{algorithm}
+    Input: same as before \newline
+\caption{MINIMUM-STRESS-AND-SEQUENCE$(a, n)$}
+\begin{algorithmic}[1]
+\STATE Let \texttt{minStress}[0..n] and \texttt{prev}[0..n] be new arrays
+\STATE \texttt{minStress}[0] $\leftarrow$ 0
+\STATE \texttt{prev}[0] $\leftarrow$ \texttt{NIL}
+\FOR{$j = 1$ to $n$}
+    \STATE \texttt{minStress}[j] $\leftarrow \infty$
+    \FOR{$i = 0$ to $j-1$}
+        \STATE \texttt{cost} $\leftarrow$ \texttt{minStress}[i] $+$ $(1000 - (a[j] - a[i]))^2$
+        \IF{\texttt{cost} $<$ \texttt{minStress}[j]}
+            \STATE \texttt{minStress}[j] $\leftarrow$ \texttt{cost}
+            \STATE \texttt{prev}[j] $\leftarrow$ $i$
+        \ENDIF
+    \ENDFOR
+\ENDFOR
+
+\STATE Initialize empty list \texttt{sequence}
+\STATE $k \leftarrow n$
+\WHILE{$k \neq$ \texttt{NIL}}
+    \STATE Append $k$ to \texttt{sequence}
+    \STATE $k \leftarrow$ \texttt{prev}[$k$]
+\ENDWHILE
+\STATE Reverse \texttt{sequence}
+\RETURN \texttt{minStress}[n] and \texttt{sequence}
+\end{algorithmic}
+\end{algorithm}
   \end{solution}
  
 \end{parts}
